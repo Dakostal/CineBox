@@ -1,4 +1,6 @@
-import {Controller, useForm, type SubmitHandler} from 'react-hook-form'
+import {Controller, useForm } from 'react-hook-form'
+import { SignInSchema } from '../../../lib/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type FormFields = {
     email: string;
@@ -12,13 +14,18 @@ export const SignInForm = () => {
         reset,
         formState: {errors},
      } = useForm<FormFields>( {
+        resolver: zodResolver(SignInSchema),
         defaultValues: {
             email: '',
             password: '',
         }
      })
     
-    const onSubmit: SubmitHandler<FormFields> = (data) => {
+    const onSubmit = (data: FormFields ) => {
+        const userData = (data.email, data.password)
+        if (userData) {
+            localStorage.setItem('userData', JSON.stringify(userData))
+        }
         console.log(data);
         reset()
     } 
