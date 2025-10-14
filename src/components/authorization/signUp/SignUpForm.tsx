@@ -26,9 +26,8 @@ export const SignUpForm = () => {
     })
 
     const onSubmit = (data: SignUpFormValue) => {
-        const userData = (data.email, data.password)
-        if(userData) {
-            localStorage.setItem('userData', JSON.stringify(userData))
+        if(data) {
+            localStorage.setItem('userData', JSON.stringify(data))
             console.log(data);
             reset() 
         }
