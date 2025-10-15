@@ -69,7 +69,6 @@ export const SignInForm = () => {
                                     placeholder="password"
                                     {...field}
                                 />
-
                             )}
                         />
                     {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
