@@ -7,10 +7,10 @@ export const Authorization = () => {
     return(
         <div>
             <div>
-                <button onClick={()=> setIsLogin(true)}>Ругистрация</button>
-                <button onClick={()=> setIsLogin(false)}>Вход</button>
+                <button onClick={()=> setIsLogin(false)}>Регистрация</button>
+                <button onClick={()=> setIsLogin(true)}>Вход</button>
             </div>
-            {isLogin ? <SignUpForm /> : <SignInForm />}
+            {isLogin ? <SignInForm /> : <SignUpForm />}
         </div>
     )
 }

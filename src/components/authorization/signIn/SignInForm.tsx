@@ -1,6 +1,9 @@
 import {Controller, useForm } from 'react-hook-form'
 import { SignInSchema } from '../../../lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAppDispatch } from '../../../redux/hooks/hooks';
+import { login } from '../../../redux/slices/userSlice'
+import { useRouter } from "@tanstack/react-router"
 
 type FormFields = {
     email: string;
@@ -8,6 +11,8 @@ type FormFields = {
 }
 
 export const SignInForm = () => {
+    const router = useRouter()
+
     const {
         control, 
         handleSubmit,
@@ -21,13 +26,15 @@ export const SignInForm = () => {
         }
      })
     
+    const dispatch = useAppDispatch()
+
     const onSubmit = (data: FormFields ) => {
-        const userData = (data.email, data.password)
-        if (userData) {
-            localStorage.setItem('userData', JSON.stringify(userData))
-        }
-        console.log(data);
+        const userData = {email: data.email}
+        dispatch(login(userData))
+        
+        console.log(userData);
         reset()
+        router.navigate({to: '/'})
     } 
 
     return(

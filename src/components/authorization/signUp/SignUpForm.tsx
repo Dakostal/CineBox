@@ -1,6 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { SignUpSchema } from "../../../lib/types";
+import { useAppDispatch } from "../../../redux/hooks/hooks";
+import { useRouter } from '@tanstack/react-router'
+import { login } from "../../../redux/slices/userSlice";
 
 interface SignUpFormValue {
     email: string;
@@ -10,6 +13,8 @@ interface SignUpFormValue {
 }
 
 export const SignUpForm = () => {
+    const router = useRouter();
+
     const {
         control,
         handleSubmit,
@@ -24,13 +29,16 @@ export const SignUpForm = () => {
                 acceptRules: false,
             }
     })
+    const dispatch = useAppDispatch()
+
 
     const onSubmit = (data: SignUpFormValue) => {
-        if(data) {
-            localStorage.setItem('userData', JSON.stringify(data))
-            console.log(data);
-            reset() 
-        }
+        const userData = {email: data.email}
+        dispatch(login(userData))
+        
+        console.log(userData);
+        reset()
+        router.navigate({to: '/'})
     }
 
     return (
