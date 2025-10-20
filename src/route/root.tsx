@@ -9,10 +9,10 @@ const MediaRoute = createRoute({
     path: '/',
     component: MediaLibrary,
     beforeLoad: () => {
-        if(!localStorage.getItem('userData')) {
-            throw redirect({to: '/auth'})
+        if (!localStorage.getItem('userData')) {
+            throw redirect({ to: '/auth' })
         }
-    }
+    },
 })
 
 const AuthRoute = createRoute({
@@ -20,16 +20,14 @@ const AuthRoute = createRoute({
     path: '/auth',
     component: Authorization,
     beforeLoad: () => {
-        if(!localStorage.getItem('userData')) {
-            throw redirect({to: '/'})
+        if (localStorage.getItem('userData')) {
+            throw redirect({ to: '/' })
         }
-    }   
+    },
 })
 
 const routeTree = rootRoute.addChildren([MediaRoute, AuthRoute])
 
 export const router = createRouter({ routeTree })
 
-export const AppRouter = () => {
-    return <RouterProvider router={router} />
-} 
+export const AppRouter = () => <RouterProvider router={router} />

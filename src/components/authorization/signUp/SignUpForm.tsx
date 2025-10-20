@@ -112,7 +112,7 @@ export const SignUpForm = () => {
                     />
                 {errors.acceptRules && <div>{errors.acceptRules.message as string}</div>}
                 </div>
-                <button type='submit'>Регистрация</button>
+                <button type='submit'>Зарегистрироваться</button>
             </form>
         </div>
     )
