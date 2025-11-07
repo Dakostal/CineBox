@@ -1,16 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { SignUpSchema } from "../../../lib/types";
+import { SignUpSchema} from "../../../lib/types";
 import { useAppDispatch } from "../../../redux/hooks/hooks";
 import { useRouter } from '@tanstack/react-router'
-import { login } from "../../../redux/slices/userSlice";
-
-interface SignUpFormValue {
-    email: string;
-    password: string;
-    confirmPassword: string;
-    acceptRules: boolean;
-}
+import { register } from '../../../redux/slices/userSlice'
+import { z } from "zod";
 
 export const SignUpForm = () => {
     const router = useRouter();
@@ -20,7 +14,7 @@ export const SignUpForm = () => {
         handleSubmit,
         reset,
         formState: {errors}
-    } = useForm <SignUpFormValue>( {
+    } = useForm <z.infer<typeof SignUpSchema>>( {
             resolver: zodResolver(SignUpSchema),
             defaultValues: {
                 email: '',
@@ -31,12 +25,9 @@ export const SignUpForm = () => {
     })
     const dispatch = useAppDispatch()
 
-
-    const onSubmit = (data: SignUpFormValue) => {
-        const userData = {email: data.email}
-        dispatch(login(userData))
-        
-        console.log(userData);
+    const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
+        const userData = {email: data.email, password: data.password}
+        dispatch(register(userData))
         reset()
         router.navigate({to: '/'})
     }
@@ -87,7 +78,7 @@ export const SignUpForm = () => {
                             <input 
                                 {...field}
                                 id="confirmPassword" 
-                                type="Password" 
+                                type="password" 
                                 placeholder="Повторите пароль"                           
                             />
                         )}
