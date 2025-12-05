@@ -32,3 +32,21 @@ export const SignInSchema = z.object({
     message: "Неверный email или пароль",
     path: ["email"],
 })
+
+export const MovieSchema = z.object({
+  title: z.string().min(2, 'Название должно быть не короче 2 символов'),
+
+  year: z
+    .number()
+    .int('Год должен быть целым числом')
+    .min(1800, 'Год не может быть раньше 1800')
+    .max(new Date().getFullYear() + 1, 'Год из будущего?')
+    .refine((val) => val !== undefined, {
+      message: 'Год обязателен',
+    }),
+
+  genre: z.string().min(1, 'Выберите жанр'),
+  watched: z.boolean(),
+});
+
+export type MovieFormData = z.infer<typeof MovieSchema>;
