@@ -4,7 +4,6 @@ import { AddMovieForm } from '../movies/AddMovieForm';
 import { MovieList } from '../movies/MovieList';
 import styles from './MediaLibrary.module.scss';
 
-
 export const MediaLibrary = () => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.user.currentUser);
