@@ -1,21 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { SignUpSchema } from "../../../lib/types";
-
-interface SignUpFormValue {
-    email: string;
-    password: string;
-    confirmPassword: string;
-    acceptRules: boolean;
-}
+import { SignUpSchema} from "../../../lib/types";
+import { useAppDispatch } from "../../../redux/hooks/hooks";
+import { useRouter } from '@tanstack/react-router'
+import { register } from '../../../redux/slices/userSlice'
+import { z } from "zod";
 
 export const SignUpForm = () => {
+    const router = useRouter();
+
     const {
         control,
         handleSubmit,
         reset,
         formState: {errors}
-    } = useForm <SignUpFormValue>( {
+    } = useForm <z.infer<typeof SignUpSchema>>( {
             resolver: zodResolver(SignUpSchema),
             defaultValues: {
                 email: '',
@@ -24,14 +23,13 @@ export const SignUpForm = () => {
                 acceptRules: false,
             }
     })
+    const dispatch = useAppDispatch()
 
-    const onSubmit = (data: SignUpFormValue) => {
-        const userData = (data.email, data.password)
-        if(userData) {
-            localStorage.setItem('userData', JSON.stringify(userData))
-            console.log(data);
-            reset() 
-        }
+    const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
+        const userData = {email: data.email, password: data.password}
+        dispatch(register(userData))
+        reset()
+        router.navigate({to: '/'})
     }
 
     return (
@@ -80,7 +78,7 @@ export const SignUpForm = () => {
                             <input 
                                 {...field}
                                 id="confirmPassword" 
-                                type="Password" 
+                                type="password" 
                                 placeholder="Повторите пароль"                           
                             />
                         )}
@@ -105,7 +103,7 @@ export const SignUpForm = () => {
                     />
                 {errors.acceptRules && <div>{errors.acceptRules.message as string}</div>}
                 </div>
-                <button type='submit'>Регистрация</button>
+                <button type='submit'>Зарегистрироваться</button>
             </form>
         </div>
     )

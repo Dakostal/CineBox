@@ -1,13 +1,16 @@
 import {Controller, useForm } from 'react-hook-form'
 import { SignInSchema } from '../../../lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAppDispatch } from '../../../redux/hooks/hooks';
+import { login, type User } from '../../../redux/slices/userSlice'
+import { useRouter } from "@tanstack/react-router"
+import { z } from 'zod';
 
-type FormFields = {
-    email: string;
-    password: string;
-}
+type FormFields = z.infer<typeof SignInSchema>
 
 export const SignInForm = () => {
+    const router = useRouter()
+
     const {
         control, 
         handleSubmit,
@@ -21,13 +24,15 @@ export const SignInForm = () => {
         }
      })
     
+    const dispatch = useAppDispatch()
+
     const onSubmit = (data: FormFields ) => {
-        const userData = (data.email, data.password)
-        if (userData) {
-            localStorage.setItem('userData', JSON.stringify(userData))
-        }
-        console.log(data);
+        const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
+        const user = users.find((user: User) => user.email === data.email && user.password === data.password)
+
+        dispatch(login(user))
         reset()
+        router.navigate({to: '/'})
     } 
 
     return(
@@ -69,7 +74,6 @@ export const SignInForm = () => {
                                     placeholder="password"
                                     {...field}
                                 />
-
                             )}
                         />
                     {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}

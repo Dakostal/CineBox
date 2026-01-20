@@ -1,11 +1,11 @@
 import './App.css'
-import { Authorization } from './components/authorization/Authorization'
+import { AppRouter } from './route/root'
 
 export const App = () => {
 
   return (
     <div>
-      <Authorization/>
+      <AppRouter />
     </div>
   )
 }

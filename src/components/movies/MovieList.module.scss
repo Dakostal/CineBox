@@ -1,0 +1,87 @@
+.filters {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &.active {
+    font-weight: bold;
+    background-color: #e7f3ff;
+    border-color: #007bff;
+  }
+}
+
+.genreSelect {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.movieCard {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fafafa;
+}
+
+.movieInfo {
+  strong {
+    font-size: 1.1rem;
+  }
+
+  small {
+    display: block;
+    margin-top: 0.25rem;
+  }
+}
+
+.watched {
+  color: green;
+}
+
+.unwatched {
+  color: orange;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.toggleButton,
+.deleteButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteButton {
+  color: red;
+  border-color: red;
+
+  &:hover {
+    background-color: #ffe6e6;
+  }
+}
+
+.emptyMessage {
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  padding: 2rem;
+}
